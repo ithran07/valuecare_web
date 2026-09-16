@@ -1,0 +1,347 @@
+@import "./theme.css";
+
+/* =========================================================
+   VALUECARE — NAVBAR
+========================================================= */
+
+.site-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgb(252, 252, 252);
+  border-bottom: 1px solid rgba(0, 36, 85, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.site-navbar-inner {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.site-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.site-navbar-logo {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-navbar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.site-navbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.site-navbar-brand-text strong {
+  color: var(--navy-900);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.site-navbar-brand-text strong span {
+  color: var(--red-600);
+}
+
+.site-navbar-brand-text small {
+  margin-top: 4px;
+  color: #8390a2;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.site-navbar-links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.site-navbar-main-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-navbar-link {
+  position: relative;
+  padding: 29px 1px 25px;
+  color: #66758b;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 550;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+
+.site-navbar-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--red-600);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+.site-navbar-link:hover,
+.site-navbar-link.active {
+  color: var(--navy-900);
+}
+
+.site-navbar-link.active::after {
+  transform: scaleX(1);
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.site-navbar-search {
+  width: 190px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid #e1e6ed;
+  border-radius: 10px;
+  background: #f7f9fb;
+  color: #9aa5b5;
+}
+
+.site-navbar-search:focus-within {
+  border-color: #c7d3e2;
+  background: var(--white);
+}
+
+.site-navbar-search input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.site-navbar-search input::placeholder {
+  color: #a5afbd;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.site-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.site-navbar-action,
+.site-navbar-menu {
+  position: relative;
+  width: 39px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  color: var(--navy-900);
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.site-navbar-action:hover,
+.site-navbar-menu:hover {
+  background: #edf3fa;
+  color: var(--navy-700);
+}
+
+.site-navbar-cart {
+  margin-left: 1px;
+}
+
+.site-navbar-badge {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--red-600);
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 700;
+  border: 2px solid var(--white);
+}
+
+.site-navbar-menu {
+  display: none;
+}
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.site-navbar-mobile {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .site-navbar-main-links {
+    gap: 16px;
+  }
+
+  .site-navbar-links {
+    gap: 16px;
+  }
+
+  .site-navbar-search {
+    width: 155px;
+  }
+}
+
+@media (max-width: 850px) {
+  .site-navbar-inner {
+    height: 70px;
+  }
+
+  .site-navbar-links {
+    display: none;
+  }
+
+  .site-navbar-menu {
+    display: flex;
+  }
+
+  .site-navbar-mobile {
+    display: block;
+    padding: 10px 20px 20px;
+    border-top: 1px solid #edf0f4;
+    background: var(--white);
+    box-shadow: 0 18px 30px rgba(0, 20, 50, 0.08);
+  }
+
+  .site-navbar-mobile-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-navbar-mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 3px;
+    border-bottom: 1px solid #edf0f4;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 550;
+  }
+
+  .site-navbar-mobile-link.active {
+    color: var(--navy-900);
+  }
+
+  .site-navbar-mobile-link.active svg {
+    color: var(--red-600);
+  }
+
+  .site-navbar-mobile-search {
+    height: 44px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #f7f9fb;
+    color: #9aa5b5;
+  }
+
+  .site-navbar-mobile-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 500px) {
+  .site-navbar-inner {
+    gap: 10px;
+  }
+
+  .site-navbar-brand-text strong {
+    font-size: 18px;
+  }
+
+  .site-navbar-brand-text small {
+    display: none;
+  }
+
+  .site-navbar-logo {
+    width: 37px;
+    height: 37px;
+  }
+
+  .site-navbar-actions {
+    margin-left: auto;
+  }
+
+  .site-navbar-action,
+  .site-navbar-menu {
+    width: 36px;
+    height: 36px;
+  }
+}

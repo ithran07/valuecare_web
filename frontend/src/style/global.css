@@ -1,0 +1,263 @@
+/* =========================================================
+   VALUECARE — DESIGN TOKENS
+   Navy + red brand with Poppins throughout
+========================================================= */
+
+:root {
+  --navy: #002455;
+  --navy-deep: #050e3c;
+  --red: #ff3131;
+  --red-deep: #d81f1f;
+
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --cream: #fbfaf7;
+
+  --text: #202637;
+  --muted: #6c7488;
+  --muted-light: #9aa1b1;
+  --border: #e7e9f0;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --shadow-soft: 0 12px 30px rgba(5, 14, 60, 0.06);
+  --shadow-lift: 0 20px 45px rgba(5, 14, 60, 0.1);
+
+  /* Poppins only */
+  --font-family: "Poppins", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family);
+  margin: 0;
+  color: var(--navy-deep);
+  letter-spacing: -0.01em;
+}
+
+p {
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-family);
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-main {
+  flex: 1;
+}
+
+.container {
+  width: min(1180px, 100% - 48px);
+  margin: 0 auto;
+}
+
+/* ---- shared building blocks ------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 650;
+  font-size: 15px;
+  border: none;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--red);
+  color: white;
+  box-shadow: 0 10px 24px rgba(255, 49, 49, 0.28);
+}
+
+.btn-primary:hover {
+  background: var(--red-deep);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--navy);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: var(--navy-deep);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--navy);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.eyebrow {
+  color: var(--red);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.section {
+  padding: 72px 0;
+}
+
+.section-heading {
+  max-width: 620px;
+  margin-bottom: 40px;
+}
+
+.section-heading h2 {
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.section-heading p {
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-family: var(--font-family);
+  font-size: 14.5px;
+  background: white;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--navy);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.alert-error {
+  background: #fff1f1;
+  color: #b5231f;
+  border: 1px solid #ffd3d3;
+}
+
+.alert-success {
+  background: #eefaf3;
+  color: #157a4b;
+  border: 1px solid #bfe9d3;
+}
+
+.empty-block {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted-light);
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .section-heading h2 {
+    font-size: 27px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    width: min(100% - 32px, 1180px);
+  }
+}

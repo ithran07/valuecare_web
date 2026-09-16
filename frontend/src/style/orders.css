@@ -1,0 +1,371 @@
+.orders-page {
+  min-height: calc(100vh - 80px);
+  padding: 42px 0 90px;
+  background: #f6f8fb;
+  color: #14213d;
+  font-family: "Poppins", sans-serif;
+}
+
+.orders-container {
+  max-width: 1120px;
+}
+
+.orders-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 32px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.orders-back:hover {
+  color: #002455;
+}
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.orders-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #ff3131;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.orders-header h1 {
+  margin: 0;
+  color: #002455;
+  font-size: clamp(32px, 4vw, 43px);
+  letter-spacing: -0.04em;
+}
+
+.orders-header p {
+  margin: 9px 0 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+.orders-shop-button,
+.orders-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.orders-shop-button {
+  min-height: 43px;
+  padding: 0 17px;
+  border-radius: 10px;
+  background: #002455;
+  color: #fff;
+}
+
+.orders-shop-button:hover {
+  background: #00356f;
+}
+
+/* Toolbar */
+
+.orders-toolbar {
+  padding: 16px;
+  border: 1px solid #e4e9ef;
+  border-radius: 15px;
+  background: #fff;
+  margin-bottom: 18px;
+}
+
+.orders-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.orders-search svg {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+}
+
+.orders-search input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px 0 42px;
+  box-sizing: border-box;
+  border: 1px solid #e1e7ee;
+  border-radius: 9px;
+  outline: none;
+  color: #172b4d;
+  font: inherit;
+  font-size: 12px;
+}
+
+.orders-search input:focus {
+  border-color: #002455;
+}
+
+.orders-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.orders-filters button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e1e7ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #64748b;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.orders-filters button:hover,
+.orders-filters button.active {
+  border-color: #002455;
+  background: #002455;
+  color: #fff;
+}
+
+/* Cards */
+
+.orders-list {
+  display: grid;
+  gap: 12px;
+}
+
+.orders-card {
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  background: #fff;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.orders-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 30px rgba(0, 36, 85, 0.07);
+  transform: translateY(-1px);
+}
+
+.orders-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 19px 21px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.orders-card-number {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.orders-card-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #eef4fa;
+  color: #002455;
+}
+
+.orders-card-number strong {
+  display: block;
+  color: #17345e;
+  font-size: 13px;
+}
+
+.orders-card-number span {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.orders-card-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 18px 21px;
+}
+
+.orders-products-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.orders-products-preview span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.orders-card-total {
+  text-align: right;
+}
+
+.orders-card-total span {
+  display: block;
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+.orders-card-total strong {
+  display: block;
+  margin-top: 3px;
+  color: #002455;
+  font-size: 17px;
+}
+
+.orders-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 21px;
+  background: #fafbfc;
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+.orders-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #002455;
+  font-weight: 700;
+}
+
+/* Empty */
+
+.orders-empty {
+  padding: 75px 25px;
+  border: 1px solid #e4e9ef;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+}
+
+.orders-empty-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #eef4fa;
+  color: #002455;
+}
+
+.orders-empty h2 {
+  margin: 0;
+  color: #002455;
+  font-size: 21px;
+}
+
+.orders-empty p {
+  max-width: 450px;
+  margin: 9px auto 22px;
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.orders-primary-button {
+  min-height: 43px;
+  padding: 0 17px;
+  border-radius: 10px;
+  background: #002455;
+  color: #fff;
+}
+
+/* Loading */
+
+.orders-loading {
+  display: grid;
+  gap: 12px;
+}
+
+.orders-skeleton {
+  height: 165px;
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(
+    90deg,
+    #eef1f5 25%,
+    #f7f8fa 50%,
+    #eef1f5 75%
+  );
+  background-size: 200% 100%;
+  animation: orders-loading 1.4s infinite;
+}
+
+.orders-skeleton div {
+  height: 12px;
+  width: 40%;
+  margin-bottom: 14px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+@keyframes orders-loading {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .orders-page {
+    padding-top: 28px;
+  }
+
+  .orders-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .orders-shop-button {
+    width: 100%;
+  }
+
+  .orders-card-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .orders-card-content {
+    flex-direction: column;
+  }
+
+  .orders-card-total {
+    text-align: left;
+  }
+}

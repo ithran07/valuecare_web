@@ -1,0 +1,140 @@
+.signout-overlay,
+.order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 18, 43, 0.62);
+  backdrop-filter: blur(6px);
+  animation: modal-fade 0.18s ease;
+}
+
+.signout-modal {
+  position: relative;
+  width: min(100%, 430px);
+  padding: 32px;
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: 0 30px 80px rgba(0, 18, 43, 0.2);
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  animation: modal-up 0.22s ease;
+}
+
+.signout-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9px;
+  background: #f5f7f9;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.signout-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: #fff3f3;
+  color: #ff3131;
+}
+
+.signout-label {
+  color: #ff3131;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.signout-modal h2 {
+  margin: 7px 0 9px;
+  color: #002455;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+}
+
+.signout-modal p {
+  margin: 0 auto;
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.signout-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.signout-cancel,
+.signout-confirm {
+  min-height: 44px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.signout-cancel {
+  border: 1px solid #dce3eb;
+  background: #fff;
+  color: #002455;
+}
+
+.signout-confirm {
+  border: 0;
+  background: #ff3131;
+  color: #fff;
+}
+
+.signout-confirm:hover {
+  background: #e62929;
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .signout-modal {
+    padding: 28px 21px;
+  }
+
+  .signout-actions {
+    grid-template-columns: 1fr;
+  }
+}

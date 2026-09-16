@@ -1,0 +1,174 @@
+/* ==========================================================================
+   ValueCare Medical Supplies — shared design tokens
+   Import this once at the top of every page stylesheet:
+     @import "./theme.css";
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Brand — drawn from the ValueCare logo */
+  --navy-900: #0a2b57;
+  --navy-800: #0f3568;
+  --navy-700: #14417c;
+  --navy-600: #1c4f92;
+  --navy-500: #3568ab;
+  --navy-100: #e7edf6;
+
+  --red-600: #e0303f;
+  --red-500: #ef4551;
+  --red-100: #fbe4e6;
+
+  --ink: #0b1b32;
+  --ink-soft: #4a5872;
+  --ink-faint: #7c879c;
+
+  --paper: #f6f8fb;
+  --mist: #eaeff5;
+  --line: #dbe2ec;
+  --white: #ffffff;
+
+  --success: #1f8a5f;
+
+  /* Type */
+  --font-family: "Poppins", sans-serif;
+
+  /* Shape — the logo's chevron/notch, used sparingly as the site's signature cut */
+  --notch: 22px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  --shadow-card: 0 1px 2px rgba(10, 27, 50, 0.06), 0 8px 24px rgba(10, 27, 50, 0.06);
+  --shadow-lift: 0 12px 32px rgba(10, 27, 50, 0.14);
+
+  --container-width: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 88px 0;
+}
+
+.section-heading {
+  max-width: 620px;
+  margin-bottom: 44px;
+}
+
+.section-heading h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3vw, 38px);
+  color: var(--ink);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.section-heading p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy-700);
+  margin-bottom: 14px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red-600);
+  flex-shrink: 0;
+}
+
+/* Buttons ------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--navy-700);
+  color: var(--white);
+  box-shadow: 0 1px 2px rgba(10, 27, 50, 0.15);
+}
+
+.btn-primary:hover {
+  background: var(--navy-800);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy-700);
+  border-color: var(--line);
+}
+
+.btn-ghost:hover {
+  border-color: var(--navy-500);
+  background: var(--navy-100);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--navy-700);
+  border-color: var(--navy-700);
+}
+
+.btn-secondary:hover {
+  background: var(--navy-100);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
