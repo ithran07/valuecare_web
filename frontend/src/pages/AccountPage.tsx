@@ -194,7 +194,7 @@ export default function AccountPage() {
             <div className="account-section-header">
               <div>
                 <span className="account-eyebrow">Order history</span>
-                <h2>Recent orders</h2>
+                <h2>Recent orders.</h2>
               </div>
 
               {orders.length > 0 && (
