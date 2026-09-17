@@ -58,7 +58,22 @@ def build_delivery_address(data):
     if barangay:
         parts.append(barangay)
 
-    city_line = city
+    # Prevent the province from being duplicated when
+    # the city field already contains the province.
+    city_clean = city
+
+    if province and city_clean:
+        city_lower = city_clean.lower()
+        province_lower = province.lower()
+
+        suffix = f", {province_lower}"
+
+        if city_lower.endswith(suffix):
+            city_clean = city_clean[
+                :-(len(suffix))
+            ].strip()
+
+    city_line = city_clean
 
     if province:
         if city_line:
