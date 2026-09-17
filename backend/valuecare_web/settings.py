@@ -60,8 +60,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "valuecare_web.wsgi.application"
 
 pos_database_url = os.getenv("POS_DATABASE_URL", "")
+
 if pos_database_url:
     parsed = urlparse(pos_database_url)
+
     pos_db_config = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": parsed.path.lstrip("/"),
@@ -72,7 +74,6 @@ if pos_database_url:
         "OPTIONS": {},
     }
 else:
-    # Fallback to individual DB_* vars if you'd rather set it that way.
     pos_db_config = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("DB_NAME", "postgres"),
@@ -80,13 +81,25 @@ else:
         "PASSWORD": os.environ.get("DB_PASSWORD", ""),
         "HOST": os.environ.get("DB_HOST", "localhost"),
         "PORT": os.environ.get("DB_PORT", "5432"),
+        "OPTIONS": {},
     }
 
+
+# Website's own Django tables.
+# Uses the same PostgreSQL database as the POS connection.
+default_db_config = {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.environ.get("DB_NAME", "postgres"),
+    "USER": os.environ.get("DB_USER", "postgres"),
+    "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+    "HOST": os.environ.get("DB_HOST", "localhost"),
+    "PORT": os.environ.get("DB_PORT", "5432"),
+    "OPTIONS": {},
+}
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
+    "default": default_db_config,
     "pos_db": pos_db_config,
 }
 
