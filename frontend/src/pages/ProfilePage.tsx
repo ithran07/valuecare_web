@@ -4,6 +4,7 @@ import {
   Building2,
   CheckCircle2,
   Loader2,
+  MapPin,
   Phone,
   UserRound,
 } from "lucide-react";
@@ -19,7 +20,17 @@ interface CustomerProfile {
   phone: string;
   business_name: string;
   customer_type: string;
-  delivery_address: string;
+
+  recipient_name: string;
+  house_unit: string;
+  street: string;
+  barangay: string;
+  city: string;
+  province: string;
+  postal_code: string;
+  country: string;
+  delivery_instructions: string;
+
   created_at: string;
   updated_at: string;
 }
@@ -39,19 +50,67 @@ const EMPTY_PROFILE: CustomerProfile = {
   phone: "",
   business_name: "",
   customer_type: "INDIVIDUAL",
-  delivery_address: "",
+
+  recipient_name: "",
+  house_unit: "",
+  street: "",
+  barangay: "",
+  city: "",
+  province: "",
+  postal_code: "",
+  country: "Philippines",
+  delivery_instructions: "",
+
   created_at: "",
   updated_at: "",
 };
 
 function normalizeProfile(profile: CustomerProfile) {
   return {
-    first_name: profile.first_name.trim(),
-    last_name: profile.last_name.trim(),
-    phone: profile.phone.trim(),
-    business_name: profile.business_name.trim(),
-    customer_type: profile.customer_type,
-    delivery_address: profile.delivery_address.trim(),
+    first_name: (profile.first_name ?? "").trim(),
+    last_name: (profile.last_name ?? "").trim(),
+    phone: (profile.phone ?? "").trim(),
+    business_name: (profile.business_name ?? "").trim(),
+    customer_type: profile.customer_type ?? "INDIVIDUAL",
+
+    recipient_name: (profile.recipient_name ?? "").trim(),
+    house_unit: (profile.house_unit ?? "").trim(),
+    street: (profile.street ?? "").trim(),
+    barangay: (profile.barangay ?? "").trim(),
+    city: (profile.city ?? "").trim(),
+    province: (profile.province ?? "").trim(),
+    postal_code: (profile.postal_code ?? "").trim(),
+    country: (profile.country ?? "Philippines").trim(),
+    delivery_instructions: (
+      profile.delivery_instructions ?? ""
+    ).trim(),
+  };
+}
+
+function normalizeApiProfile(
+  data: Partial<CustomerProfile> | null | undefined
+): CustomerProfile {
+  return {
+    ...EMPTY_PROFILE,
+
+    first_name: data?.first_name ?? "",
+    last_name: data?.last_name ?? "",
+    phone: data?.phone ?? "",
+    business_name: data?.business_name ?? "",
+    customer_type: data?.customer_type ?? "INDIVIDUAL",
+
+    recipient_name: data?.recipient_name ?? "",
+    house_unit: data?.house_unit ?? "",
+    street: data?.street ?? "",
+    barangay: data?.barangay ?? "",
+    city: data?.city ?? "",
+    province: data?.province ?? "",
+    postal_code: data?.postal_code ?? "",
+    country: data?.country ?? "Philippines",
+    delivery_instructions: data?.delivery_instructions ?? "",
+
+    created_at: data?.created_at ?? "",
+    updated_at: data?.updated_at ?? "",
   };
 }
 
@@ -95,15 +154,19 @@ export default function ProfilePage() {
         );
 
         if (mounted) {
-          setProfile(response.data);
-          setOriginalProfile(response.data);
+          const normalized = normalizeApiProfile(response.data);
+
+          setProfile(normalized);
+          setOriginalProfile(normalized);
           setEditing(false);
         }
-      } catch {
+      } catch (err: any) {
         if (mounted) {
-          setError(
-            "We couldn't load your profile. Please try again."
-          );
+          const message =
+            err?.response?.data?.detail ||
+            "We couldn't load your profile. Please try again.";
+
+          setError(message);
         }
       } finally {
         if (mounted) {
@@ -157,20 +220,38 @@ export default function ProfilePage() {
     setSuccess("");
 
     try {
+      const payload = {
+        first_name: (profile.first_name ?? "").trim(),
+        last_name: (profile.last_name ?? "").trim(),
+        phone: (profile.phone ?? "").trim(),
+        business_name: (profile.business_name ?? "").trim(),
+        customer_type:
+          profile.customer_type || "INDIVIDUAL",
+
+        recipient_name:
+          (profile.recipient_name ?? "").trim(),
+        house_unit: (profile.house_unit ?? "").trim(),
+        street: (profile.street ?? "").trim(),
+        barangay: (profile.barangay ?? "").trim(),
+        city: (profile.city ?? "").trim(),
+        province: (profile.province ?? "").trim(),
+        postal_code: (profile.postal_code ?? "").trim(),
+        country:
+          (profile.country ?? "Philippines").trim() ||
+          "Philippines",
+        delivery_instructions:
+          (profile.delivery_instructions ?? "").trim(),
+      };
+
       const response = await api.patch<CustomerProfile>(
         "/account/profile/",
-        {
-          first_name: profile.first_name.trim(),
-          last_name: profile.last_name.trim(),
-          phone: profile.phone.trim(),
-          business_name: profile.business_name.trim(),
-          customer_type: profile.customer_type,
-          delivery_address: profile.delivery_address.trim(),
-        }
+        payload
       );
 
-      setProfile(response.data);
-      setOriginalProfile(response.data);
+      const normalized = normalizeApiProfile(response.data);
+
+      setProfile(normalized);
+      setOriginalProfile(normalized);
       setEditing(false);
       setSuccess("Your profile has been saved.");
     } catch (err: any) {
@@ -402,6 +483,186 @@ export default function ProfilePage() {
 
           <div className="account-form-divider" />
 
+          <div className="account-form-section">
+            <div className="account-form-section-heading">
+              <div className="account-form-section-icon">
+                <MapPin size={19} />
+              </div>
+
+              <div>
+                <h2>Delivery address</h2>
+                <p>
+                  Save your delivery information for future
+                  orders.
+                </p>
+              </div>
+            </div>
+
+            <div className="account-form-grid">
+              <label className="account-field">
+                <span>Recipient name</span>
+
+                <input
+                  type="text"
+                  value={profile.recipient_name}
+                  onChange={(event) =>
+                    updateField(
+                      "recipient_name",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Name of recipient"
+                  autoComplete="name"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>House / unit / building</span>
+
+                <input
+                  type="text"
+                  value={profile.house_unit}
+                  onChange={(event) =>
+                    updateField(
+                      "house_unit",
+                      event.target.value
+                    )
+                  }
+                  placeholder="House or unit number"
+                  autoComplete="address-line1"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>Street</span>
+
+                <input
+                  type="text"
+                  value={profile.street}
+                  onChange={(event) =>
+                    updateField(
+                      "street",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Street name"
+                  autoComplete="address-line2"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>Barangay</span>
+
+                <input
+                  type="text"
+                  value={profile.barangay}
+                  onChange={(event) =>
+                    updateField(
+                      "barangay",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Barangay"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>City</span>
+
+                <input
+                  type="text"
+                  value={profile.city}
+                  onChange={(event) =>
+                    updateField(
+                      "city",
+                      event.target.value
+                    )
+                  }
+                  placeholder="City / Municipality"
+                  autoComplete="address-level2"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>Province</span>
+
+                <input
+                  type="text"
+                  value={profile.province}
+                  onChange={(event) =>
+                    updateField(
+                      "province",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Province"
+                  autoComplete="address-level1"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>Postal code</span>
+
+                <input
+                  type="text"
+                  value={profile.postal_code}
+                  onChange={(event) =>
+                    updateField(
+                      "postal_code",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Postal code"
+                  autoComplete="postal-code"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field">
+                <span>Country</span>
+
+                <input
+                  type="text"
+                  value={profile.country}
+                  onChange={(event) =>
+                    updateField(
+                      "country",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Country"
+                  autoComplete="country-name"
+                  disabled={!editing || saving}
+                />
+              </label>
+
+              <label className="account-field account-field-full">
+                <span>Delivery instructions</span>
+
+                <textarea
+                  value={profile.delivery_instructions}
+                  onChange={(event) =>
+                    updateField(
+                      "delivery_instructions",
+                      event.target.value
+                    )
+                  }
+                  placeholder="Optional delivery instructions"
+                  rows={4}
+                  disabled={!editing || saving}
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="account-form-divider" />
+
           {error && (
             <div className="account-form-message account-form-message-error">
               <span>{error}</span>
@@ -417,15 +678,13 @@ export default function ProfilePage() {
 
           <div className="account-form-actions">
             {!editing ? (
-              <>
-                <button
-                  type="button"
-                  className="account-primary-button"
-                  onClick={handleEdit}
-                >
-                  Edit profile
-                </button>
-              </>
+              <button
+                type="button"
+                className="account-primary-button"
+                onClick={handleEdit}
+              >
+                Edit profile
+              </button>
             ) : (
               <>
                 <button
@@ -452,9 +711,7 @@ export default function ProfilePage() {
                         Saving...
                       </>
                     ) : (
-                      <>
-                        Save changes
-                      </>
+                      <>Save changes</>
                     )}
                   </button>
                 )}
