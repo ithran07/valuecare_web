@@ -108,7 +108,7 @@ export default function HomePage() {
 
             <h1>
               Supplies your clinic can count on,
-              <span>every single order.</span>
+              <span> every single order.</span>
             </h1>
 
             <p className="home-hero-description">

@@ -11,6 +11,7 @@ from .models import (
     WebOrderItem,
 )
 
+
 def build_delivery_address(data):
     parts = []
 
@@ -95,9 +96,11 @@ def build_delivery_address(data):
 
     return "\n".join(parts)
 
+
 class CustomerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerProfile
+
         fields = [
             "first_name",
             "last_name",
@@ -123,13 +126,18 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        
+
+
 class WebOrderItemInputSerializer(serializers.Serializer):
-    """What the frontend sends per cart line — quantity only.
-    Price is never trusted from the client; it's looked up server-side below.
+    """
+    What the frontend sends per cart line.
+
+    Only product ID and quantity are accepted from
+    the client. Price is always retrieved server-side.
     """
 
     product_id = serializers.IntegerField()
+
     quantity = serializers.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -138,8 +146,13 @@ class WebOrderItemInputSerializer(serializers.Serializer):
 
 
 class WebOrderItemOutputSerializer(serializers.ModelSerializer):
+    """
+    Item representation returned to the frontend.
+    """
+
     class Meta:
         model = WebOrderItem
+
         fields = [
             "product_id",
             "product_name",
@@ -151,6 +164,16 @@ class WebOrderItemOutputSerializer(serializers.ModelSerializer):
 
 
 class WebOrderCreateSerializer(serializers.ModelSerializer):
+    """
+    Serializer used when a customer creates a web order.
+
+    The frontend sends only:
+        product_id
+        quantity
+
+    Product pricing is always taken from the database.
+    """
+
     items = WebOrderItemInputSerializer(
         many=True,
         write_only=True,
@@ -305,6 +328,10 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
 
         request = self.context["request"]
 
+        # -------------------------------------------------
+        # ADDRESS FIELDS
+        # -------------------------------------------------
+
         recipient_name = validated_data.pop(
             "recipient_name"
         )
@@ -342,6 +369,10 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
             "",
         )
 
+        # -------------------------------------------------
+        # BUILD DELIVERY ADDRESS
+        # -------------------------------------------------
+
         address_data = {
             "recipient_name": recipient_name,
             "house_unit": house_unit,
@@ -363,23 +394,27 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
                 f"{delivery_instructions}"
             )
 
+        # -------------------------------------------------
+        # LOAD PRODUCTS
+        # -------------------------------------------------
+
         product_ids = [
             item["product_id"]
             for item in items_data
         ]
 
         products = {
-            p.id: p
-            for p in Product.objects.filter(
+            product.id: product
+            for product in Product.objects.filter(
                 id__in=product_ids,
                 is_active=True,
             )
         }
 
         missing = [
-            pid
-            for pid in product_ids
-            if pid not in products
+            product_id
+            for product_id in product_ids
+            if product_id not in products
         ]
 
         if missing:
@@ -391,6 +426,10 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
                     )
                 }
             )
+
+        # -------------------------------------------------
+        # SUPABASE USER
+        # -------------------------------------------------
 
         supabase_user = getattr(
             request,
@@ -412,11 +451,19 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
             else None
         )
 
+        # -------------------------------------------------
+        # CREATE ORDER
+        # -------------------------------------------------
+
         order = WebOrder.objects.create(
             supabase_user_id=supabase_user_id,
             delivery_address=delivery_address,
             **validated_data,
         )
+
+        # -------------------------------------------------
+        # CREATE ORDER ITEMS
+        # -------------------------------------------------
 
         subtotal = Decimal("0")
 
@@ -429,6 +476,7 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
 
             quantity = item["quantity"]
 
+            # Always use the current database price.
             unit_price = product.selling_price
 
             line_total = (
@@ -455,6 +503,10 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
             order_items
         )
 
+        # -------------------------------------------------
+        # SAVE ORDER TOTALS
+        # -------------------------------------------------
+
         order.subtotal = subtotal
         order.total = subtotal
 
@@ -467,7 +519,28 @@ class WebOrderCreateSerializer(serializers.ModelSerializer):
 
         return order
 
+    def to_representation(self, instance):
+        """
+        Return the newly-created order using the detail
+        serializer so the frontend receives the saved
+        WebOrderItem records.
+
+        The input `items` field is write-only, so without
+        this method the POST response would not contain
+        the actual order items.
+        """
+
+        return WebOrderDetailSerializer(
+            instance,
+            context=self.context,
+        ).data
+
+
 class WebOrderDetailSerializer(serializers.ModelSerializer):
+    """
+    Complete order representation returned to customers.
+    """
+
     items = WebOrderItemOutputSerializer(
         many=True,
         read_only=True,
@@ -475,6 +548,7 @@ class WebOrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WebOrder
+
         fields = [
             "order_number",
             "status",
@@ -496,8 +570,8 @@ class StaffWebOrderSerializer(serializers.ModelSerializer):
     """
     Serializer used by the staff/POS API.
 
-    Staff can view the complete web order and update the
-    order status and matched POS customer code.
+    Staff can view the complete web order and update
+    the order status and matched POS customer code.
     """
 
     items = WebOrderItemOutputSerializer(
@@ -507,6 +581,7 @@ class StaffWebOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WebOrder
+
         fields = [
             "id",
             "order_number",
@@ -526,6 +601,7 @@ class StaffWebOrderSerializer(serializers.ModelSerializer):
             "updated_at",
             "items",
         ]
+
         read_only_fields = [
             "id",
             "order_number",
@@ -541,6 +617,7 @@ class StaffWebOrderSerializer(serializers.ModelSerializer):
 class WebContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebContactMessage
+
         fields = [
             "name",
             "email",
