@@ -108,19 +108,6 @@ export default function ContactPage() {
               delivery? Our team is here to help.
             </p>
           </div>
-
-          <div className="contact-hero-badge">
-            <div className="contact-hero-badge-icon">
-              <MessageSquare size={22} />
-            </div>
-
-            <div>
-              <strong>Have a question?</strong>
-              <span>
-                Send us a message and we'll get back to you.
-              </span>
-            </div>
-          </div>
         </div>
       </section>
 

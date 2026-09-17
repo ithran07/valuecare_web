@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import (
     ContactMessageView,
+    CustomerProfileView,
     MyOrdersView,
     PlaceOrderView,
     StaffOrderDetailView,
@@ -17,4 +18,12 @@ urlpatterns = [
 
     path("staff/orders/", StaffOrderListView.as_view(), name="staff-order-list"),
     path("staff/orders/<int:pk>/", StaffOrderDetailView.as_view(), name="staff-order-detail"),
+    
+    path(
+        "account/profile/",
+        CustomerProfileView.as_view(),
+        name="customer-profile",
+    ),
+    
+    
 ]

@@ -234,7 +234,7 @@
   align-items: center;
 }
 
-.checkout-input-wrap > svg {
+.checkout-input-wrap>svg {
   position: absolute;
   left: 14px;
   z-index: 1;
@@ -281,7 +281,7 @@
   box-shadow: 0 0 0 4px rgba(0, 36, 85, 0.07);
 }
 
-.checkout-input-wrap:focus-within > svg {
+.checkout-input-wrap:focus-within>svg {
   color: #002455;
 }
 
@@ -339,7 +339,7 @@
   position: relative;
 }
 
-.checkout-textarea-wrap > svg {
+.checkout-textarea-wrap>svg {
   position: absolute;
   top: 15px;
   left: 14px;
@@ -374,24 +374,24 @@
 }
 
 .checkout-textarea-wrap textarea::placeholder,
-.checkout-field > textarea::placeholder {
+.checkout-field>textarea::placeholder {
   color: #a6b0bd;
 }
 
 .checkout-textarea-wrap textarea:hover,
-.checkout-field > textarea:hover {
+.checkout-field>textarea:hover {
   border-color: #c7d1de;
   background: #ffffff;
 }
 
 .checkout-textarea-wrap textarea:focus,
-.checkout-field > textarea:focus {
+.checkout-field>textarea:focus {
   border-color: #002455;
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(0, 36, 85, 0.07);
 }
 
-.checkout-textarea-wrap:focus-within > svg {
+.checkout-textarea-wrap:focus-within>svg {
   color: #002455;
 }
 
@@ -399,7 +399,7 @@
    ORDER NOTES TEXTAREA
 ========================================================= */
 
-.checkout-field > textarea {
+.checkout-field>textarea {
   display: block;
   width: 100%;
   min-height: 92px;
@@ -424,7 +424,7 @@
    DELIVERY CARD FIELD SPACING
 ========================================================= */
 
-.checkout-card > .checkout-field:last-child {
+.checkout-card>.checkout-field:last-child {
   margin-bottom: 0;
 }
 
@@ -443,7 +443,7 @@
   color: #315e4d;
 }
 
-.checkout-notice > svg {
+.checkout-notice>svg {
   flex: 0 0 auto;
   margin-top: 1px;
   color: #23845f;
@@ -628,7 +628,7 @@
   font-size: 9px;
 }
 
-.checkout-summary-item > strong {
+.checkout-summary-item>strong {
   color: #002455;
   font-size: 11px;
   font-weight: 700;
@@ -684,7 +684,7 @@
   background: #f7f9fc;
 }
 
-.checkout-summary-info > svg {
+.checkout-summary-info>svg {
   flex: 0 0 auto;
   margin-top: 1px;
   color: #23845f;
@@ -877,7 +877,7 @@
     font-size: 11px;
   }
 
-  .checkout-field > textarea {
+  .checkout-field>textarea {
     min-height: 88px;
     font-size: 11px;
   }
@@ -934,7 +934,7 @@
     font-size: 8px;
   }
 
-  .checkout-summary-item > strong {
+  .checkout-summary-item>strong {
     font-size: 10px;
   }
 
@@ -1208,4 +1208,538 @@
   }
 }
 
-.track-content { scroll-margin-top: 80px; }
+.track-content {
+  scroll-margin-top: 80px;
+}
+
+/* ========================================================= VALUECARE CHECKOUT — SAVED ADDRESS ========================================================= */
+.checkout-saved-address-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid #dce7f2;
+  border-radius: 14px;
+  background: #f6f9fc;
+}
+
+.checkout-saved-address-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 10px;
+  background: #e8f0f8;
+  color: #002455;
+}
+
+.checkout-saved-address-notice strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #002455;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.checkout-saved-address-notice p {
+  margin: 0;
+  color: #697586;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* Address loading */
+.checkout-address-loading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  color: #697586;
+  font-size: 12px;
+}
+
+.checkout-address-spinner {
+  animation: checkout-address-spin 0.8s linear infinite;
+}
+
+@keyframes checkout-address-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Save address checkbox */
+.checkout-save-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: -2px;
+  margin-bottom: 22px;
+  padding: 14px 15px;
+  border: 1px solid #e4e9ef;
+  border-radius: 13px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.checkout-save-address:hover {
+  border-color: #cbd7e4;
+  background: #fafcfe;
+}
+
+.checkout-save-address input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkout-save-address-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  margin-top: 1px;
+  border: 1.5px solid #cbd3dd;
+  border-radius: 6px;
+  color: transparent;
+  background: #fff;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.checkout-save-address input:checked+.checkout-save-address-box {
+  border-color: #002455;
+  background: #002455;
+  color: #fff;
+}
+
+.checkout-save-address-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.checkout-save-address-text strong {
+  color: #182230;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.checkout-save-address-text small {
+  color: #7a8594;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .checkout-saved-address-notice {
+    padding: 13px;
+  }
+
+  .checkout-save-address {
+    padding: 13px;
+  }
+}
+
+/* =========================================================
+   SAVED CUSTOMER PROFILE
+========================================================= */
+
+.checkout-profile-loading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 18px;
+  padding: 12px 14px;
+
+  border: 1px solid #e3eaf1;
+  border-radius: 11px;
+
+  background: #f8fafc;
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+.checkout-profile-spinner {
+  animation: checkout-profile-spin 0.8s linear infinite;
+}
+
+@keyframes checkout-profile-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.checkout-saved-profile-notice,
+.checkout-saved-address-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  margin-bottom: 20px;
+  padding: 13px 14px;
+
+  border: 1px solid #dcefe5;
+  border-radius: 12px;
+
+  background: #f4fbf7;
+}
+
+.checkout-saved-profile-icon,
+.checkout-saved-address-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+
+  border-radius: 9px;
+
+  background: #e0f4e8;
+  color: #18794e;
+}
+
+.checkout-saved-profile-notice strong,
+.checkout-saved-address-notice strong {
+  display: block;
+
+  color: #17613f;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkout-saved-profile-notice p,
+.checkout-saved-address-notice p {
+  margin: 3px 0 0;
+
+  color: #628071;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   SAVE ADDRESS
+========================================================= */
+
+.checkout-save-address {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  margin: -2px 0 20px;
+
+  cursor: pointer;
+}
+
+.checkout-save-address input {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkout-save-address-box {
+  position: relative;
+
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  margin-top: 1px;
+
+  border: 1.5px solid #cbd5df;
+  border-radius: 5px;
+
+  background: #fff;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.checkout-save-address input:checked
+  + .checkout-save-address-box {
+  border-color: #002455;
+  background: #002455;
+
+  box-shadow:
+    0 0 0 3px rgba(0, 36, 85, 0.08);
+}
+
+.checkout-save-address input:checked
+  + .checkout-save-address-box::after {
+  content: "";
+
+  position: absolute;
+
+  left: 5px;
+  top: 2px;
+
+  width: 5px;
+  height: 9px;
+
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+
+  transform: rotate(45deg);
+}
+
+.checkout-save-address-text {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.checkout-save-address-text strong {
+  color: #243447;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.checkout-save-address-text small {
+  color: #8a96a3;
+
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   SUBMIT SPINNER
+========================================================= */
+
+.checkout-submit-spinner {
+  animation:
+    checkout-submit-spin
+    0.8s linear infinite;
+}
+
+@keyframes checkout-submit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   ACCOUNT NOTE
+========================================================= */
+
+.checkout-account-note {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 14px;
+  padding: 13px 14px;
+
+  border: 1px solid #e4e9ef;
+  border-radius: 12px;
+
+  background: #fff;
+}
+
+.checkout-account-note-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+
+  border-radius: 9px;
+
+  background: #eef4fa;
+  color: #002455;
+}
+
+.checkout-account-note div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+.checkout-account-note strong {
+  color: #243447;
+
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.checkout-account-note span {
+  overflow: hidden;
+
+  color: #89939e;
+
+  font-size: 10.5px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .checkout-saved-profile-notice,
+  .checkout-saved-address-notice {
+    padding: 12px;
+  }
+
+  .checkout-save-address-text strong {
+    font-size: 11.5px;
+  }
+
+  .checkout-save-address-text small {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   STRUCTURED DELIVERY ADDRESS
+========================================================= */
+
+.checkout-card .checkout-form-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+  gap: 0 18px;
+}
+
+.checkout-card
+  .checkout-form-grid
+  .checkout-field {
+  margin-bottom: 19px;
+}
+
+.checkout-card
+  .checkout-form-grid
+  .checkout-field-full {
+  grid-column: 1 / -1;
+}
+
+.checkout-card
+  .checkout-form-grid
+  .checkout-field:nth-last-child(1) {
+  margin-bottom: 0;
+}
+
+/* Address inputs without icons */
+
+.checkout-form-grid
+  > .checkout-field
+  > input {
+  display: block;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #dce3eb;
+  border-radius: 11px;
+  outline: none;
+  background: #fbfcfe;
+  color: #1d2b40;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.checkout-form-grid
+  > .checkout-field
+  > input::placeholder {
+  color: #a6b0bd;
+}
+
+.checkout-form-grid
+  > .checkout-field
+  > input:hover {
+  border-color: #c7d1de;
+  background: #ffffff;
+}
+
+.checkout-form-grid
+  > .checkout-field
+  > input:focus {
+  border-color: #002455;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(0, 36, 85, 0.07);
+}
+
+.checkout-form-grid
+  > .checkout-field
+  > input:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  background: #f3f5f8;
+}
+
+/* =========================================================
+   DELIVERY INSTRUCTION TEXTAREA
+========================================================= */
+
+.checkout-textarea-wrap textarea {
+  min-height: 105px;
+}
+
+/* =========================================================
+   RESPONSIVE STRUCTURED ADDRESS
+========================================================= */
+
+@media (max-width: 640px) {
+  .checkout-card .checkout-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .checkout-card
+    .checkout-form-grid
+    .checkout-field {
+    margin-bottom: 16px;
+  }
+
+  .checkout-card
+    .checkout-form-grid
+    .checkout-field-full {
+    grid-column: auto;
+  }
+
+  .checkout-form-grid
+    > .checkout-field
+    > input {
+    height: 46px;
+    font-size: 11px;
+  }
+}

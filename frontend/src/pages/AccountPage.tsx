@@ -12,10 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api";
 import type { OrderResult, Product } from "../types";
-import ProductCard from "../components/ProductCard";
 import SignOutModal from "../components/SignOutModal";
 import "../style/account.css";
-import ProductDetailModal from "../components/ProductDetailModal";
 
 export default function AccountPage() {
   const {
@@ -41,14 +39,17 @@ export default function AccountPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showSignOut, setShowSignOut] = useState(false);
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<Product | null>(null);
 
   useEffect(() => {
     if (!session) return;
 
     api
       .get("/orders/mine/")
-      .then((res) => setOrders(res.data.results || res.data))
+      .then((res) => {
+        setOrders(res.data.results || res.data);
+      })
       .catch(() => {});
 
     api
@@ -58,7 +59,9 @@ export default function AccountPage() {
         },
       })
       .then((res) => {
-        setProducts((res.data.results || res.data).slice(0, 4));
+        setProducts(
+          (res.data.results || res.data).slice(0, 4)
+        );
       })
       .catch(() => {});
   }, [session]);
@@ -80,16 +83,21 @@ export default function AccountPage() {
             <UserRound size={28} />
           </div>
 
-          <span className="account-eyebrow">Customer account</span>
+          <span className="account-eyebrow">
+            Customer account
+          </span>
 
           <h1>Guest checkout is available</h1>
 
           <p>
-            You don't need an account to order from ValueCare. Add products
-            to your cart and checkout as a guest.
+            You don't need an account to order from ValueCare.
+            Add products to your cart and checkout as a guest.
           </p>
 
-          <Link to="/products" className="account-primary-button">
+          <Link
+            to="/products"
+            className="account-primary-button"
+          >
             Browse products
             <ArrowRight size={17} />
           </Link>
@@ -98,224 +106,15 @@ export default function AccountPage() {
     );
   }
 
+  /*
+   * If the customer is already authenticated and somehow
+   * visits /account directly, send them to the products page.
+   *
+   * The Navbar is now the main account navigation.
+   */
   if (session) {
-    const recentOrders = orders.slice(0, 3);
-
-    const totalOrders = orders.length;
-
-    const confirmedOrders = orders.filter(
-      (order) =>
-        order.status === "CONFIRMED" ||
-        order.status === "COMPLETED"
-    ).length;
-
-    return (
-      <div className="account-page">
-        <div className="container account-container">
-
-          {/* Header */}
-          <header className="account-topbar">
-            <div>
-              <span className="account-eyebrow">My account</span>
-              <h1>Welcome back</h1>
-              <p>{session.user.email}</p>
-            </div>
-
-            <button
-              className="account-signout-button"
-              onClick={() => setShowSignOut(true)}
-            >
-              <LogOut size={17} />
-              Sign out
-            </button>
-          </header>
-
-          {/* Profile overview */}
-          <section className="account-profile-card">
-            <div className="account-profile-main">
-              <div className="account-avatar">
-                <UserRound size={28} />
-              </div>
-
-              <div>
-                <span className="account-profile-label">
-                  Customer account
-                </span>
-                <h2>{session.user.email}</h2>
-                <p>
-                  Manage your orders and browse ValueCare medical supplies.
-                </p>
-              </div>
-            </div>
-
-            <Link to="/account/profile" className="account-outline-button">
-              View profile
-              <ArrowRight size={16} />
-            </Link>
-          </section>
-
-          {/* Statistics */}
-          <section className="account-stat-grid">
-            <div className="account-stat-card">
-              <div className="account-stat-icon">
-                <ShoppingBag size={20} />
-              </div>
-              <div>
-                <span>Total orders</span>
-                <strong>{totalOrders}</strong>
-              </div>
-            </div>
-
-            <div className="account-stat-card">
-              <div className="account-stat-icon">
-                <Package size={20} />
-              </div>
-              <div>
-                <span>Confirmed orders</span>
-                <strong>{confirmedOrders}</strong>
-              </div>
-            </div>
-
-            <div className="account-stat-card">
-              <div className="account-stat-icon">
-                <ClipboardList size={20} />
-              </div>
-              <div>
-                <span>Account status</span>
-                <strong className="account-active-status">
-                  Active
-                </strong>
-              </div>
-            </div>
-          </section>
-
-          {/* Recent orders */}
-          <section className="account-section">
-            <div className="account-section-header">
-              <div>
-                <span className="account-eyebrow">Order history</span>
-                <h2>Recent orders.</h2>
-              </div>
-
-              {orders.length > 0 && (
-                <Link to="/account/orders" className="account-view-all">
-                  View all
-                  <ArrowRight size={16} />
-                </Link>
-              )}
-            </div>
-
-            {recentOrders.length === 0 ? (
-              <div className="account-empty-card">
-                <div className="account-empty-icon">
-                  <Package size={25} />
-                </div>
-
-                <h3>No orders yet</h3>
-
-                <p>
-                  Your orders will appear here after you complete your
-                  first purchase.
-                </p>
-
-                <Link
-                  to="/products"
-                  className="account-primary-button"
-                >
-                  Browse medical supplies
-                  <ArrowRight size={17} />
-                </Link>
-              </div>
-            ) : (
-              <div className="account-recent-orders">
-                {recentOrders.map((order) => (
-                  <button
-                    key={order.order_number}
-                    className="account-order-row"
-                    onClick={() =>
-                      navigate("/account/orders", {
-                        state: {
-                          selectedOrder: order.order_number,
-                        },
-                      })
-                    }
-                  >
-                    <div className="account-order-icon">
-                      <Package size={19} />
-                    </div>
-
-                    <div className="account-order-info">
-                      <strong>{order.order_number}</strong>
-                      <span>
-                        {new Date(
-                          order.created_at
-                        ).toLocaleDateString("en-PH", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </span>
-                    </div>
-
-                    <span
-                      className={`account-order-status status-${order.status.toLowerCase()}`}
-                    >
-                      {order.status}
-                    </span>
-
-                    <strong className="account-order-total">
-                      ₱
-                      {Number(order.total).toLocaleString("en-PH", {
-                        minimumFractionDigits: 2,
-                      })}
-                    </strong>
-
-                    <ArrowRight size={17} className="account-order-arrow" />
-                  </button>
-                ))}
-              </div>
-            )}
-          </section>
-
-          {/* Products */}
-          <section className="account-section account-products-section">
-            <div className="account-section-header">
-              <div>
-                <span className="account-eyebrow">ValueCare store</span>
-                <h2>Browse our products</h2>
-              </div>
-
-              <Link to="/products" className="account-view-all">
-                Browse all
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-
-            {products.length > 0 && (
-              <div className="account-product-grid">
-                {products.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onOpen={() => setSelectedProduct(product)}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        </div>
-
-        {showSignOut && (
-          <SignOutModal
-            onCancel={() => setShowSignOut(false)}
-            onConfirm={async () => {
-              setShowSignOut(false);
-              await signOut();
-            }}
-          />
-        )}
-      </div>
-    );
+    navigate("/products", { replace: true });
+    return null;
   }
 
   async function submit(e: FormEvent) {
@@ -325,17 +124,29 @@ export default function AccountPage() {
     setInfo("");
     setSubmitting(true);
 
+    const cleanEmail = email.trim();
+
     const result =
       mode === "login"
-        ? await signIn(email, password)
-        : await signUp(email, password);
+        ? await signIn(cleanEmail, password)
+        : await signUp(cleanEmail, password);
 
     if (result.error) {
       setError(result.error);
-    } else if (mode === "signup") {
+    } else if (mode === "login") {
+      /*
+       * Successful login:
+       * immediately take the customer to the product catalog.
+       */
+      navigate("/products", {
+        replace: true,
+      });
+    } else {
       setInfo(
         "Account created. Check your email to confirm your account, then sign in."
       );
+
+      setPassword("");
     }
 
     setSubmitting(false);
@@ -346,6 +157,7 @@ export default function AccountPage() {
       <div className="container account-auth-container">
         <div className="account-auth-card">
 
+          {/* Brand */}
           <div className="account-auth-brand">
             <div className="account-auth-icon">
               <UserRound size={25} />
@@ -354,6 +166,7 @@ export default function AccountPage() {
             <span>ValueCare</span>
           </div>
 
+          {/* Heading */}
           <div className="account-auth-heading">
             <span className="account-eyebrow">
               Customer account
@@ -372,10 +185,13 @@ export default function AccountPage() {
             </p>
           </div>
 
+          {/* Tabs */}
           <div className="account-auth-tabs">
             <button
               type="button"
-              className={mode === "login" ? "active" : ""}
+              className={
+                mode === "login" ? "active" : ""
+              }
               onClick={() => {
                 setMode("login");
                 setError("");
@@ -387,7 +203,9 @@ export default function AccountPage() {
 
             <button
               type="button"
-              className={mode === "signup" ? "active" : ""}
+              className={
+                mode === "signup" ? "active" : ""
+              }
               onClick={() => {
                 setMode("signup");
                 setError("");
@@ -398,41 +216,63 @@ export default function AccountPage() {
             </button>
           </div>
 
+          {/* Error */}
           {error && (
             <div className="account-alert account-alert-error">
               {error}
             </div>
           )}
 
+          {/* Success */}
           {info && (
             <div className="account-alert account-alert-success">
               {info}
             </div>
           )}
 
-          <form className="account-auth-form" onSubmit={submit}>
+          {/* Form */}
+          <form
+            className="account-auth-form"
+            onSubmit={submit}
+          >
             <div className="account-field">
-              <label htmlFor="acc-email">Email address</label>
+              <label htmlFor="acc-email">
+                Email address
+              </label>
+
               <input
                 id="acc-email"
                 type="email"
                 placeholder="you@example.com"
+                autoComplete="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
               />
             </div>
 
             <div className="account-field">
-              <label htmlFor="acc-password">Password</label>
+              <label htmlFor="acc-password">
+                Password
+              </label>
+
               <input
                 id="acc-password"
                 type="password"
                 placeholder="Enter your password"
+                autoComplete={
+                  mode === "login"
+                    ? "current-password"
+                    : "new-password"
+                }
                 required
                 minLength={6}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
               />
             </div>
 
@@ -449,16 +289,17 @@ export default function AccountPage() {
             </button>
           </form>
 
+          {/* Footer */}
           <div className="account-auth-note">
-            <span>Guest checkout is always available.</span>
-            <Link to="/products">Continue shopping</Link>
+            <span>
+              Guest checkout is always available.
+            </span>
+
+            <Link to="/products">
+              Continue shopping
+            </Link>
           </div>
-          {selectedProduct && (
-            <ProductDetailModal
-              product={selectedProduct}
-              onClose={() => setSelectedProduct(null)}
-            />
-          )}
+
         </div>
       </div>
     </div>

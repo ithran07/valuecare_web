@@ -2,13 +2,14 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import WebOrder
+from .models import CustomerProfile, WebOrder
 from .notifications import (
     notify_staff_new_message,
     notify_staff_new_order,
 )
 from .permissions import HasStaffApiKey
 from .serializers import (
+    CustomerProfileSerializer,
     StaffWebOrderSerializer,
     WebContactMessageSerializer,
     WebOrderCreateSerializer,
@@ -82,7 +83,40 @@ class TrackOrderView(APIView):
             WebOrderDetailSerializer(order).data
         )
 
+class CustomerProfileView(APIView):
+    """
+    GET/PATCH /api/account/profile/
 
+    Returns or updates the signed-in customer's profile.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        profile, _ = CustomerProfile.objects.get_or_create(
+            supabase_user_id=request.user.id
+        )
+
+        return Response(
+            CustomerProfileSerializer(profile).data
+        )
+
+    def patch(self, request):
+        profile, _ = CustomerProfile.objects.get_or_create(
+            supabase_user_id=request.user.id
+        )
+
+        serializer = CustomerProfileSerializer(
+            profile,
+            data=request.data,
+            partial=True,
+        )
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+    
 class MyOrdersView(generics.ListAPIView):
     """
     GET /api/orders/mine/ — only returns something if the shopper

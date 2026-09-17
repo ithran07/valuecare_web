@@ -59,15 +59,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "valuecare_web.wsgi.application"
 
-# ---------------------------------------------------------------------------
-# TWO databases:
-#   "default" — this project's own admin/auth/sessions + webstore tables.
-#   "pos_db"  — your POS's real database, READ-ONLY, via catalog app.
-# See catalog/routers.py for how queries get routed.
-#
-# Reuses your POS's DATABASE_URL convention: set POS_DATABASE_URL in this
-# project's .env to the exact same value as your POS's DATABASE_URL.
-# ---------------------------------------------------------------------------
 pos_database_url = os.getenv("POS_DATABASE_URL", "")
 if pos_database_url:
     parsed = urlparse(pos_database_url)
