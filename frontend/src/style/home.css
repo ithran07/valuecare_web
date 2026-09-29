@@ -525,7 +525,7 @@
 
 .home-category-card {
   position: relative;
-  min-height: 150px;
+  min-height: 15px;
   padding: 22px;
   display: flex;
   align-items: flex-start;

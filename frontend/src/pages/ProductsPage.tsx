@@ -233,7 +233,7 @@ export default function ProductsPage() {
             PAGE HEADER
         ================================================= */}
 
-        <section className="products-header">
+        {/* <section className="products-header">
           <div className="container">
             <div className="products-header-content">
               <div>
@@ -258,7 +258,7 @@ export default function ProductsPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ================================================
             MAIN CONTENT
@@ -304,7 +304,7 @@ export default function ProductsPage() {
             <div className="products-filter-left">
               <div className="filter-label">
                 <Filter size={15} />
-                Categories
+                Categoriess
               </div>
 
               <div className="products-category-list">

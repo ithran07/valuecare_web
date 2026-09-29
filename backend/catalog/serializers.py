@@ -20,15 +20,37 @@ class ProductListSerializer(serializers.ModelSerializer):
     unit = UnitSerializer(read_only=True)
     in_stock = serializers.BooleanField(read_only=True)
 
+    # Static image stored in frontend/public/products/
+    image = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = [
-            "id", "sku", "name", "brand", "manufacturer",
-            "category", "unit", "selling_price", "wholesale_price",
-            "is_prescription", "in_stock",
+            "id",
+            "sku",
+            "name",
+            "brand",
+            "manufacturer",
+            "description",
+            "category",
+            "unit",
+            "selling_price",
+            "wholesale_price",
+
+            # Packaging
+            "pack_size",
+            "pack_unit",
+            "units_per_case",
+
+            "is_prescription",
+            "in_stock",
+            "image",
         ]
+
+    def get_image(self, obj):
+        return f"/products/{obj.id}.webp"
 
 
 class ProductDetailSerializer(ProductListSerializer):
     class Meta(ProductListSerializer.Meta):
-        fields = ProductListSerializer.Meta.fields + ["description"]
+        fields = ProductListSerializer.Meta.fields

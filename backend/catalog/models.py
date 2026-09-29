@@ -46,18 +46,62 @@ class Product(models.Model):
     barcode = models.CharField(max_length=80, null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+
     category = models.ForeignKey(
-        Category, null=True, blank=True, on_delete=models.DO_NOTHING, related_name="products"
+        Category,
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name="products",
     )
+
     unit = models.ForeignKey(
-        Unit, null=True, blank=True, on_delete=models.DO_NOTHING, related_name="products"
+        Unit,
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name="products",
     )
+
     brand = models.CharField(max_length=120, blank=True)
     manufacturer = models.CharField(max_length=160, blank=True)
-    selling_price = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0"))
-    wholesale_price = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0"))
+
+    selling_price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal("0"),
+    )
+
+    wholesale_price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal("0"),
+    )
+
+    # Packaging information
+    pack_size = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+
+    pack_unit = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+    )
+
+    units_per_case = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+
     is_prescription = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
 

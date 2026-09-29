@@ -101,10 +101,10 @@ export default function HomePage() {
 
         <div className="container home-hero-inner">
           <div className="home-hero-content">
-            <div className="home-eyebrow">
+            {/* <div className="home-eyebrow">
               <span/>
               Medical & healthcare supplies
-            </div>
+            </div> */}
 
             <h1>
               Supplies your clinic can count on,
@@ -225,9 +225,9 @@ export default function HomePage() {
                     to={`/products?category=${category.id}`}
                     className="home-category-card"
                   >
-                    <div className="home-category-icon">
+                    {/* <div className="home-category-icon">
                       <Icon size={23} />
-                    </div>
+                    </div> */}
 
                     <div className="home-category-content">
                       <span>{category.name}</span>
@@ -237,11 +237,6 @@ export default function HomePage() {
                         <ArrowRight size={14} />
                       </small>
                     </div>
-
-                    <ArrowRight
-                      className="home-category-arrow"
-                      size={18}
-                    />
                   </Link>
                 );
               })}

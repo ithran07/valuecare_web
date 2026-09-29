@@ -20,6 +20,15 @@ export interface Product {
   unit: Unit | null;
   selling_price: string;
   wholesale_price: string;
+
+  // Packaging information
+  pack_size: number | null;
+  pack_unit: string | null;
+  units_per_case: number | null;
+
+  // Product image
+  image: string;
+
   is_prescription: boolean;
   in_stock: boolean;
 }
